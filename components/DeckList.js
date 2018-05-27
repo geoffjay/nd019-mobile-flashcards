@@ -1,44 +1,51 @@
 import React, { Component } from 'react'
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native'
 import Color from 'react-native-material-color'
+import { AppLoading } from 'expo'
+import { receiveDecks } from '../actions'
 import { DeckButton } from './DeckButton'
 
-const decks = [
-  {
-    id: 'one',
-    name: 'One',
-    cardCount: 0,
-  }, {
-    id: 'two',
-    name: 'Two',
-    cardCount: 5,
-  }, {
-    id: 'three',
-    name: 'Three',
-    cardCount: 8,
-  }, {
-    id: 'four',
-    name: 'Four',
-    cardCount: 28,
-  },
-]
-
+// TODO: Add container
 class DeckList extends Component {
+  state = {
+    ready: false,
+  }
+
   render() {
+    const { decks } = this.props
+    // TODO: make this dataLoaded in redux state
+    const { ready } = this.state
+
+    /*
+     *if (ready === false) {
+     *  return <AppLoading />
+     *}
+     */
+
+    // FIXME: Use deck.title instead of random string
     return (
       <ScrollView style={styles.container}>
-        {decks.map((deck) => (
+        {Object.values(decks).map((deck) => (
           <DeckButton
-            key={deck.name}
+            key={Math.random().toString(36).substr(2, 5)}
             style={styles.button}
             onPress={() => this.props.navigation.navigate(
               'Deck',
-              { deckId: deck.id }
+              { deckId: deck.title }
             )}
           >
             <View>
-              <Text style={styles.title}>{deck.name}</Text>
-              <Text style={styles.count}>{deck.cardCount} cards</Text>
+              <Text style={styles.title}>
+                {deck.title || 'undefined'}
+              </Text>
+              <Text style={styles.count}>
+                {deck.questions ? deck.questions.length : 0} cards
+              </Text>
             </View>
           </DeckButton>
         ))}

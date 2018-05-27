@@ -7,7 +7,7 @@ import AddCard from '../containers/AddCard'
 import AddDeck from '../containers/AddDeck'
 import Deck from '../containers/Deck'
 import DeckList from '../containers/DeckList'
-import Quiz from './Quiz'
+import Quiz from '../containers/Quiz'
 
 const Tabs = createMaterialTopTabNavigator({
   DeckList: {

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { StyleSheet, Button, Text, View } from 'react-native'
 import { TextField } from 'react-native-material-textfield'
 import Color from 'react-native-material-color'
-import { connect } from 'react-redux'
 
 class AddCard extends Component {
   state = {
@@ -13,8 +12,6 @@ class AddCard extends Component {
   static navigationOptions = ({ navigation }) => {
     const { deckId } = navigation.state.params
 
-    // get deck ?
-
     return {
       title: 'Add Card',
       visible: true,
@@ -22,7 +19,14 @@ class AddCard extends Component {
   }
 
   handlePress = () => {
-    console.log('submit')
+    const card = {
+      question: this.state.question,
+      answer: this.state.answer
+    }
+    this.props.addCard(this.props.deckId, card)
+    this.state.question = ''
+    this.state.answer = ''
+    this.props.goBack()
   }
 
   render() {
@@ -77,25 +81,4 @@ const styles = StyleSheet.create({
   },
 })
 
-
-function mapStateToProps (state, { navigation }) {
-  const { deckId } = navigation.state.params
-
-  return {
-    deckId,
-    //deck: state[deckId],
-  }
-}
-
-function mapDispatchToProps (dispatch, { navigation }) {
-  const { deckId } = navigation.state.params
-
-  return {
-    goBack: () => navigation.goBack(),
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AddCard)
+export default AddCard

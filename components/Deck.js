@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Color from 'react-native-material-color'
-import { connect } from 'react-redux'
 
 class Deck extends Component {
   static navigationOptions = ({ navigation }) => {
     const { deckId } = navigation.state.params
-
-    // get deck ?
 
     return {
       title: `${deckId}`,
@@ -16,15 +13,19 @@ class Deck extends Component {
   }
 
   render() {
+    const { decks, deckId } = this.props
+    const deck = decks[deckId]
+
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>{this.props.deckId}</Text>
-        <Text style={styles.cardCount}>{3} cards</Text>
+        <Text style={styles.header}>{deckId}</Text>
+        <Text style={styles.cardCount}>
+          {deck.questions ? deck.questions.length : 0} cards</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate(
             'AddCard',
-            { deckId: this.props.deckId }
+            { deckId: deckId }
           )}
         >
           <Text>
@@ -35,7 +36,7 @@ class Deck extends Component {
           style={styles.button}
           onPress={() => this.props.navigation.navigate(
             'Quiz',
-            { deckId: this.props.deckId }
+            { deckId: deckId }
           )}
         >
           <Text>
@@ -73,32 +74,4 @@ const styles = StyleSheet.create({
   },
 })
 
-
-function mapStateToProps (state, { navigation }) {
-  const { deckId } = navigation.state.params
-
-  return {
-    deckId,
-    //deck: state[deckId],
-  }
-}
-
-function mapDispatchToProps (dispatch, { navigation }) {
-  const { deckId } = navigation.state.params
-
-  return {
-    /*
-     *remove: () => dispatch(addDeck({
-     *  [deckId]: timeToString() === deckId
-     *    ? getDailyReminderValue()
-     *    : null
-     *})),
-     */
-    goBack: () => navigation.goBack(),
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Deck)
+export default Deck

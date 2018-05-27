@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { StyleSheet, Button, View, Text } from 'react-native'
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+} from 'react-native'
 import { TextField } from 'react-native-material-textfield'
 import Color from 'react-native-material-color'
 
@@ -8,14 +14,17 @@ class AddDeck extends Component {
     title: '',
   }
 
-  handlePress = () => {
-    console.log('submit')
+  handlePress = (title) => {
+    this.props.addDeck(title)
+    this.state.title = ''
+    this.props.goBack()
   }
 
   render() {
-    let { title } = this.state
+    const { title } = this.state
+
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <Text style={styles.text}>
           What is the title of your new deck?
         </Text>
@@ -29,17 +38,18 @@ class AddDeck extends Component {
         <View style={styles.submit}>
           <Button
             title="Submit"
-            onPress={() => this.handlePress()}
+            onPress={() => this.handlePress(title)}
             color={Color.ORANGE[400]}
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 30,
   },
   text: {

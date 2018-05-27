@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Color from 'react-native-material-color'
-import { connect } from 'react-redux'
 
 class Quiz extends Component {
+  state = {
+    pos: 0,
+    score: 0,
+    showQuestion: true,
+    complete: false,
+  }
+
   static navigationOptions = ({ navigation }) => {
     const { deckId } = navigation.state.params
-
-    // get deck ?
 
     return {
       title: 'Quiz',
@@ -15,25 +24,116 @@ class Quiz extends Component {
     }
   }
 
+  toggleQuestionAnswer = () => {
+    this.setState({
+      showQuestion: !this.state.showQuestion,
+    })
+  }
+
+  handleCorrect = () => {
+    const { decks, deckId } = this.props
+
+    this.setState({
+      score: this.state.score + 1,
+      pos: this.state.pos + 1,
+    })
+
+    if (this.state.pos === decks[deckId].questions.length - 1) {
+      this.setState({ complete: true })
+    }
+  }
+
+  handleIncorrect = () => {
+    const { decks, deckId } = this.props
+
+    this.setState({
+      pos: this.state.pos + 1,
+    })
+
+    if (this.state.pos === decks[deckId].questions.length - 1) {
+      this.setState({ complete: true })
+    }
+  }
+
+  restartQuiz = () => {
+    this.setState({
+      pos: 0,
+      score: 0,
+      showQuestion: true,
+      complete: false,
+    })
+  }
+
   render() {
+    const { decks, deckId } = this.props
+    const { pos, showQuestion } = this.state
+
+    const deck = decks[deckId]
+
     return (
       <View style={styles.container}>
-        <Text style={styles.question}>{this.props.deckId}</Text>
-        <Text style={styles.subHeader}>Question/Answer</Text>
-        <TouchableOpacity
-          style={[styles.button, {backgroundColor: Color.GREEN[400]}]}
-        >
-          <Text style={styles.buttonText}>
-            Correct
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, {backgroundColor: Color.RED[400]}]}
-        >
-          <Text style={styles.buttonText}>
-            Incorrect
-          </Text>
-        </TouchableOpacity>
+        {!this.state.complete ?
+          <View>
+            <Text style={styles.progress}>
+              {deck.questions.length - pos}/{deck.questions.length}
+            </Text>
+            <Text style={styles.question}>
+              {showQuestion
+                ? deck.questions[pos].question
+                : deck.questions[pos].answer
+              }
+            </Text>
+            <TouchableOpacity onPress={() => this.toggleQuestionAnswer()}>
+              <Text style={styles.subHeader}>
+                {showQuestion
+                  ? 'Answer'
+                  : 'Question'
+                }
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: Color.GREEN[400]}]}
+              onPress={() => this.handleCorrect()}
+            >
+              <Text style={styles.buttonText}>
+                Correct
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: Color.RED[400]}]}
+              onPress={() => this.handleIncorrect()}
+            >
+              <Text style={styles.buttonText}>
+                Incorrect
+              </Text>
+            </TouchableOpacity>
+          </View>
+        :
+          <View>
+            <Text style={styles.complete}>
+              You completed the quiz with a score of
+            </Text>
+            <Text style={styles.score}>
+              {Math.round(this.state.score / deck.questions.length * 100)} %
+            </Text>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: Color.GREEN[400]}]}
+              onPress={() => this.restartQuiz()}
+            >
+              <Text style={styles.buttonText}>
+                Restart Quiz
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: Color.RED[400]}]}
+              onPress={() => this.props.goBack()}
+            >
+              <Text style={styles.buttonText}>
+                Back to Deck
+              </Text>
+            </TouchableOpacity>
+          </View>
+        }
       </View>
     )
   }
@@ -45,7 +145,7 @@ const styles = StyleSheet.create({
   },
   question: {
     textAlign: 'center',
-    fontSize: 48,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   subHeader: {
@@ -69,27 +169,16 @@ const styles = StyleSheet.create({
     color: Color.White,
     textAlign: 'center',
   },
+  complete: {
+    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  score: {
+    textAlign: 'center',
+    fontSize: 48,
+    color: Color.Red,
+  },
 })
 
-
-function mapStateToProps (state, { navigation }) {
-  const { deckId } = navigation.state.params
-
-  return {
-    deckId,
-    //deck: state[deckId],
-  }
-}
-
-function mapDispatchToProps (dispatch, { navigation }) {
-  const { deckId } = navigation.state.params
-
-  return {
-    goBack: () => navigation.goBack(),
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Quiz)
+export default Quiz
