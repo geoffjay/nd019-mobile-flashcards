@@ -1,10 +1,6 @@
 import { AsyncStorage } from 'react-native'
 import { DECKS_STORAGE_KEY } from './decks'
 
-function formatDeckResults(results) {
-  console.log(results)
-}
-
 export const getDecks = async () => {
   try {
     await AsyncStorage.getItem(DECKS_STORAGE_KEY)
@@ -14,20 +10,14 @@ export const getDecks = async () => {
   }
 }
 
-export const getDeck = async (id) => {
-  try {
-    await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-  } catch (error) {
-    console.log(`Error retrieving deck: ${error.message}`)
-  }
-}
-
 export const saveDeckTitle = async (title) => {
   try {
-    const deck = { 'balls': { 'title': title } }
-    await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify({
-      deck
-    }))
+    AsyncStorage.getItem(DECKS_STORAGE_KEY, (err, decks) => {
+      AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify({
+        ...JSON.parse(decks),
+        [title]: { 'title': title }
+      }))
+    })
   } catch (error) {
     console.log(`Error updating the deck title: ${error.message}`)
   }
@@ -35,23 +25,22 @@ export const saveDeckTitle = async (title) => {
 
 export const addCardToDeck = async (title, card) => {
   try {
-    await AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
-      [title]: {
-        questions: [
-          ...questions,
-          card,
-        ]
-      }
-    }))
+    AsyncStorage.getItem(DECKS_STORAGE_KEY, (err, decks) => {
+      let questions = []
+      Object.values(JSON.parse(decks))
+        .map((deck) => {
+          if (deck.title === title) {
+            questions = [...deck.questions || [], card]
+          }
+        })
+      AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
+        [title]: {
+          title,
+          questions
+        }
+      }))
+    })
   } catch (error) {
     console.log(`Error adding card to deck: ${error.message}`)
-  }
-}
-
-export const saveAllData = async (state) => {
-  try {
-    await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(state))
-  } catch (error) {
-    console.log('AsyncStorage save error: ' + error.message)
   }
 }
