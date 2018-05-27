@@ -1,16 +1,34 @@
-export const RECEIVE_DECKS = 'RECEIVE_DECKS'
-export const ADD_DECK = 'ADD_DECK'
+import { AsyncStorage } from 'react-native'
+import * as types from '../constants/ActionTypes'
+import { DECKS_STORAGE_KEY } from '../utils/decks'
 
-export function receiveDecks (decks) {
+export const addCard = (title, card) => {
   return {
-    type: RECEIVE_DECKS,
-    decks,
+    type: types.ADD_CARD,
+    title,
+    card,
   }
 }
 
-export function addDeck (deck) {
+export const addDeck = (deck) => {
   return {
-    type: ADD_DECK,
+    type: types.ADD_DECK,
     deck,
+  }
+}
+
+export const receiveDecks = (decks) => {
+  return {
+    type: types.RECEIVE_DECKS,
+    decks: decks || [],
+  }
+}
+
+export const getDecks = () => {
+  return dispatch => {
+    return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+      .then((decks) => {
+        dispatch(receiveDecks(JSON.parse(decks)))
+      })
   }
 }
