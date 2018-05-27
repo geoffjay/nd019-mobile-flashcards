@@ -80,68 +80,78 @@ class Quiz extends Component {
 
     return (
       <View style={styles.container}>
-        {!this.state.complete ?
-          <View>
-            <Text style={styles.progress}>
-              {deck.questions.length - pos}/{deck.questions.length}
-            </Text>
-            <Text style={styles.question}>
-              {showQuestion
-                ? deck.questions[pos].question
-                : deck.questions[pos].answer
-              }
-            </Text>
-            <TouchableOpacity onPress={() => this.toggleQuestionAnswer()}>
-              <Text style={styles.subHeader}>
+      {deck.questions ?
+        <View>
+          {!this.state.complete ?
+            <View>
+              <Text style={styles.progress}>
+                {deck.questions.length - pos}/{deck.questions.length}
+              </Text>
+              <Text style={styles.question}>
                 {showQuestion
-                  ? 'Answer'
-                  : 'Question'
+                  ? deck.questions[pos].question
+                  : deck.questions[pos].answer
                 }
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, {backgroundColor: Color.GREEN[400]}]}
-              onPress={() => this.handleCorrect()}
-            >
-              <Text style={styles.buttonText}>
-                Correct
+              <TouchableOpacity onPress={() => this.toggleQuestionAnswer()}>
+                <Text style={styles.subHeader}>
+                  {showQuestion
+                    ? 'Answer'
+                    : 'Question'
+                  }
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, {backgroundColor: Color.GREEN[400]}]}
+                onPress={() => this.handleCorrect()}
+              >
+                <Text style={styles.buttonText}>
+                  Correct
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, {backgroundColor: Color.RED[400]}]}
+                onPress={() => this.handleIncorrect()}
+              >
+                <Text style={styles.buttonText}>
+                  Incorrect
+                </Text>
+              </TouchableOpacity>
+            </View>
+          :
+            <View>
+              <Text style={styles.complete}>
+                You completed the quiz with a score of
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, {backgroundColor: Color.RED[400]}]}
-              onPress={() => this.handleIncorrect()}
-            >
-              <Text style={styles.buttonText}>
-                Incorrect
+              <Text style={styles.score}>
+                {Math.round(this.state.score / deck.questions.length * 100)} %
               </Text>
-            </TouchableOpacity>
-          </View>
-        :
-          <View>
-            <Text style={styles.complete}>
-              You completed the quiz with a score of
-            </Text>
-            <Text style={styles.score}>
-              {Math.round(this.state.score / deck.questions.length * 100)} %
-            </Text>
-            <TouchableOpacity
-              style={[styles.button, {backgroundColor: Color.GREEN[400]}]}
-              onPress={() => this.restartQuiz()}
-            >
-              <Text style={styles.buttonText}>
-                Restart Quiz
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, {backgroundColor: Color.RED[400]}]}
-              onPress={() => this.props.goBack()}
-            >
-              <Text style={styles.buttonText}>
-                Back to Deck
-              </Text>
-            </TouchableOpacity>
-          </View>
-        }
+              <TouchableOpacity
+                style={[styles.button, {backgroundColor: Color.GREEN[400]}]}
+                onPress={() => this.restartQuiz()}
+              >
+                <Text style={styles.buttonText}>
+                  Restart Quiz
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, {backgroundColor: Color.RED[400]}]}
+                onPress={() => this.props.goBack()}
+              >
+                <Text style={styles.buttonText}>
+                  Back to Deck
+                </Text>
+              </TouchableOpacity>
+            </View>
+          }
+        </View>
+      :
+        <View>
+          <Text style={styles.question}>
+            There are no questions to quiz.
+          </Text>
+        </View>
+      }
       </View>
     )
   }
