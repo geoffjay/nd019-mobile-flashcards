@@ -6,6 +6,10 @@ import {
   View,
 } from 'react-native'
 import Color from 'react-native-material-color'
+import {
+  clearLocalNotification,
+  setLocalNotification
+} from '../utils/helpers'
 
 class Quiz extends Component {
   state = {
@@ -40,6 +44,8 @@ class Quiz extends Component {
 
     if (this.state.pos === decks[deckId].questions.length - 1) {
       this.setState({ complete: true })
+      clearLocalNotification()
+        .then(setLocalNotification)
     }
   }
 
@@ -52,6 +58,8 @@ class Quiz extends Component {
 
     if (this.state.pos === decks[deckId].questions.length - 1) {
       this.setState({ complete: true })
+      clearLocalNotification()
+        .then(setLocalNotification)
     }
   }
 
