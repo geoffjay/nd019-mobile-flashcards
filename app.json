@@ -6,7 +6,7 @@
     "slug": "mobile-flashcards",
     "sdkVersion": "27.0.0",
     "android": {
-      "package": "io.halfbaked.mobile-flashcards"
+      "package": "org.mobileflashcards.exp"
     }
   }
 }
