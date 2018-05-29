@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Udacity Mobile Flashcards Project",
-    "icon": "./images/logo.jpeg",
+    "icon": "./images/logo.png",
     "version": "0.1.0",
     "slug": "mobile-flashcards",
     "sdkVersion": "27.0.0",
