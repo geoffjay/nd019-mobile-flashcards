@@ -6,6 +6,7 @@ import {
   View,
   KeyboardAvoidingView,
 } from 'react-native'
+import { NavigationActions } from 'react-navigation'
 import { TextField } from 'react-native-material-textfield'
 import Color from 'react-native-material-color'
 
@@ -14,9 +15,13 @@ class AddDeck extends Component {
     title: '',
   }
 
+  /**
+   * @description Creates a new deck using the title provided.
+   */
   handlePress = (title) => {
     this.props.addDeck(title)
     this.state.title = ''
+    //this.props.navigation.navigate('DeckList', { reload: true })
     this.props.goBack()
   }
 

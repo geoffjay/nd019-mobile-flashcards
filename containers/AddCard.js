@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import { addCard } from '../actions'
 import AddCard from '../components/AddCard'
 
-
 const mapStateToProps = (state, { navigation }) => {
   const { deckId } = navigation.state.params
 

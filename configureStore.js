@@ -5,6 +5,11 @@ import rootReducer from './reducers'
 
 const loggerMiddleware = createLogger()
 
+/**
+ * @description Create the Redux store to use with the application
+ * @param {preloadedState} Initial application state
+ * @return A configured Redux store
+ */
 export default function configureStore(preloadedState) {
   return createStore(
     rootReducer,

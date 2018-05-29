@@ -13,7 +13,6 @@ class FlashCards extends Component {
   componentDidMount() {
     //AsyncStorage.clear()
     this._initialData()
-    console.log(this.props.decks)
   }
 
   _initialData() {

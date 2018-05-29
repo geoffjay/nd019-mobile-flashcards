@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { getDecks } from '../actions'
+import { getDecks } from '../utils/api'
 import FlashCards from '../components/FlashCards'
 
 const mapStateToProps = (state) => {

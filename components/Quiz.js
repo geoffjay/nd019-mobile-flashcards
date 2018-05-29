@@ -28,12 +28,18 @@ class Quiz extends Component {
     }
   }
 
+  /**
+   * @description Toggle state to reveal question or answer.
+   */
   toggleQuestionAnswer = () => {
     this.setState({
       showQuestion: !this.state.showQuestion,
     })
   }
 
+  /**
+   * @description Handle a correct answer to the quiz question.
+   */
   handleCorrect = () => {
     const { decks, deckId } = this.props
 
@@ -49,6 +55,9 @@ class Quiz extends Component {
     }
   }
 
+  /**
+   * @description Handle an incorrect answer to the quiz question.
+   */
   handleIncorrect = () => {
     const { decks, deckId } = this.props
 
@@ -63,6 +72,9 @@ class Quiz extends Component {
     }
   }
 
+  /**
+   * @description Restart the quiz from the beginning.
+   */
   restartQuiz = () => {
     this.setState({
       pos: 0,

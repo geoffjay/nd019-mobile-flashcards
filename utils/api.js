@@ -1,15 +1,25 @@
 import { AsyncStorage } from 'react-native'
 import { DECKS_STORAGE_KEY } from './decks'
+import { receiveDecks } from '../actions'
 
-export const getDecks = async () => {
-  try {
-    await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-      .then((results) => console.log(results))
-  } catch (error) {
-    console.log(`Error retrieving decks: ${error.message}`)
+/**
+ * @description Retrieve the decks data from storage.
+ * @returns Promise for the async call to storage retrieval
+ */
+export const getDecks = () => {
+  return dispatch => {
+    return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+      .then((decks) => {
+        dispatch(receiveDecks(JSON.parse(decks)))
+      })
   }
 }
 
+/**
+ * @description Create a new deck in the device storage.
+ * @param {title} Name of the deck to save
+ * //@returns Promise for the async call to
+ */
 export const saveDeckTitle = async (title) => {
   try {
     AsyncStorage.getItem(DECKS_STORAGE_KEY, (err, decks) => {
@@ -23,6 +33,12 @@ export const saveDeckTitle = async (title) => {
   }
 }
 
+/**
+ * @description Create a new card in a deck on the device storage.
+ * @param {title} Name of the deck to add a card to
+ * @param {card} Object containing card data to add
+ * //@returns Promise for the async call to
+ */
 export const addCardToDeck = async (title, card) => {
   try {
     AsyncStorage.getItem(DECKS_STORAGE_KEY, (err, decks) => {

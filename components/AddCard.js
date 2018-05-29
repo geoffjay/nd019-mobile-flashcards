@@ -18,6 +18,10 @@ class AddCard extends Component {
     }
   }
 
+  /**
+   * @description Creates a new card using inputs and requests that it be added
+   * to storage.
+   */
   handlePress = () => {
     const card = {
       question: this.state.question,

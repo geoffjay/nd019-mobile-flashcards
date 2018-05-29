@@ -7,27 +7,22 @@ import {
 } from 'react-native'
 import Color from 'react-native-material-color'
 import { AppLoading } from 'expo'
-import { receiveDecks } from '../actions'
 import { DeckButton } from './DeckButton'
 
 // TODO: Add container
 class DeckList extends Component {
-  state = {
-    ready: false,
-  }
+  /*
+   *componentDidUpdate(prevProps) {
+   *  if (this.props.reload) {
+   *    this.props.getDecks()
+   *    this.props.navigation.setParams({ reload: false })
+   *  }
+   *}
+   */
 
   render() {
     const { decks } = this.props
-    // TODO: make this dataLoaded in redux state
-    const { ready } = this.state
 
-    /*
-     *if (ready === false) {
-     *  return <AppLoading />
-     *}
-     */
-
-    // FIXME: Use deck.title instead of random string
     return (
       <ScrollView style={styles.container}>
         {Object.values(decks).map((deck) => (
