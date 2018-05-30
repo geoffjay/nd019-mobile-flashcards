@@ -3,6 +3,11 @@
 The mobile flashcards app is a React Native application to quiz your knowledge for any given set of cards that are
 input. It uses local device storage to hold the decks and respective cards.
 
+<!--
+![demo](assets/demo.gif | width=250)
+-->
+<img src="assets/demo.gif" width="40%">
+
 ## Setup & Execution
 
 In a terminal opened to the location that this repository was cloned in, execute these commands to install the project
