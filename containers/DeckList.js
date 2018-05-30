@@ -5,7 +5,6 @@ import DeckList from '../components/DeckList'
 const mapStateToProps = (state, { navigation }) => {
   return {
     decks: state,
-    //reload: navigation.state.params && navigation.state.params.reload,
   }
 }
 

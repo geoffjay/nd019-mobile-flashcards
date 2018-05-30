@@ -21,7 +21,6 @@ class AddDeck extends Component {
   handlePress = (title) => {
     this.props.addDeck(title)
     this.state.title = ''
-    //this.props.goBack()
     this.props.navigation.navigate(
       'Deck',
       { deckId: title }
