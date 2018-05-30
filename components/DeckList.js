@@ -9,17 +9,7 @@ import Color from 'react-native-material-color'
 import { AppLoading } from 'expo'
 import { DeckButton } from './DeckButton'
 
-// TODO: Add container
 class DeckList extends Component {
-  /*
-   *componentDidUpdate(prevProps) {
-   *  if (this.props.reload) {
-   *    this.props.getDecks()
-   *    this.props.navigation.setParams({ reload: false })
-   *  }
-   *}
-   */
-
   render() {
     const { decks } = this.props
 

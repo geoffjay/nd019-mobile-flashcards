@@ -1,15 +1,24 @@
 import * as types from '../constants/ActionTypes'
 import { AsyncStorage } from 'react-native'
-import * as api from '../utils/api'
 
 const FlashCards = (state = [], action) => {
   switch(action.type) {
   case types.ADD_CARD:
-    api.addCardToDeck(action.title, action.card)
-    return { ...state }
+      return {
+        ...state,
+        [action.title]: {
+          title: action.title,
+          questions: action.questions || [],
+        }
+      }
   case types.ADD_DECK:
-    api.saveDeckTitle(action.deck)
-    return { ...state }
+    return {
+      ...state,
+      [action.deck]: {
+        title: action.deck,
+        questions: [],
+      }
+    }
   case types.RECEIVE_DECKS:
     return {
       ...state,

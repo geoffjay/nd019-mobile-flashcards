@@ -18,31 +18,35 @@ class Deck extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>{deckId}</Text>
-        <Text style={styles.cardCount}>
-          {deck.questions ? deck.questions.length : 0} cards</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate(
-            'AddCard',
-            { deckId: deckId }
-          )}
-        >
-          <Text>
-            Add Card
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate(
-            'Quiz',
-            { deckId: deckId }
-          )}
-        >
-          <Text>
-            Start Quiz
-          </Text>
-        </TouchableOpacity>
+        {deck &&
+          <View>
+            <Text style={styles.header}>{deckId}</Text>
+            <Text style={styles.cardCount}>
+              {deck.questions ? deck.questions.length : 0} cards</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate(
+                'AddCard',
+                { deckId: deckId }
+              )}
+            >
+              <Text>
+                Add Card
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate(
+                'Quiz',
+                { deckId: deckId }
+              )}
+            >
+              <Text>
+                Start Quiz
+              </Text>
+            </TouchableOpacity>
+          </View>
+        }
       </View>
     )
   }

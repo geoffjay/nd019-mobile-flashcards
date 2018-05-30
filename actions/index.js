@@ -7,11 +7,12 @@ import * as types from '../constants/ActionTypes'
  * @param {card} Object to insert into the deck
  * @returns Object representing the state action
  */
-export const addCard = (title, card) => {
+export const addCard = (title, card, questions) => {
   return {
     type: types.ADD_CARD,
     title,
     card,
+    questions,
   }
 }
 

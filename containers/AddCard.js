@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { addCard } from '../actions'
+//import { addCard } from '../actions'
+import { addCardToDeck2 } from '../utils/api'
 import AddCard from '../components/AddCard'
 
 const mapStateToProps = (state, { navigation }) => {
@@ -16,7 +17,8 @@ const mapDispatchToProps = (dispatch, { navigation }) => {
   return {
     goBack: () => navigation.goBack(),
     addCard: (deck, card) => {
-      dispatch(addCard(deck, card))
+      //dispatch(addCard(deck, card))
+      dispatch(addCardToDeck2(deck, card))
     },
   }
 }
